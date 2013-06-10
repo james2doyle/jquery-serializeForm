@@ -26,9 +26,20 @@
       // Ensure that only elements with valid `name` properties will be serialized
       if ( named[ 0 ] ) {
         for ( var i = 0; i < cap; i++ ) {
-          // move down the tree - create objects or array if necessary
-          lookup = lookup[ named[i] ] = lookup[ named[i] ] ||
-            ( named[ i + 1 ] === "" ? [] : {} );
+          if( lookup[ named[i] ] ){
+            lookup = lookup[ named[i] ];
+          }
+          else{
+            // move down the tree - create objects or array if necessary
+            var node =  ( named[ i + 1 ] === "" || !isNaN( named[ i + 1 ]) ) ? [] : {};
+            // push or assign the new node
+            if ( lookup.length !==  undefined ) {
+              lookup.push( node );
+              lookup = node;
+            }else {
+              lookup = lookup[ named[i] ] = node;
+            }
+          }
         }
 
         // at the end, push or assign the value
