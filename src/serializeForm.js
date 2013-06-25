@@ -15,7 +15,7 @@
 
     var data = {};
     var lookup = data; //current reference of data
-    var selector = ':input[type!="checkbox"][type!="radio"], input:checked';
+    var selector = ':input[type!="checkbox"][type!="radio"]:not(:disabled), input:checked:not(:disabled)';
     var parse = function() {
 
       // data[a][b] becomes [ data, a, b ]
