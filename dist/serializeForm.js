@@ -1,4 +1,5 @@
-/*! jquery-serializeForm - Make an object out of form elements - v1.1.4 - 2013-08-12\n* https://github.com/danheberden/jquery-serializeForm
+/*! jquery-serializeForm - Make an object out of form elements - v1.1.4 - 2013-08-12
+* https://github.com/danheberden/jquery-serializeForm
 * Copyright (c) 2013 Dan Heberden; Licensed MIT */(function( $ ){
   $.fn.serializeForm = function() {
 
