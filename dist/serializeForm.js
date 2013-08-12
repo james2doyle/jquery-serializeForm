@@ -1,8 +1,5 @@
-/*! jquery-serializeForm - Make an object out of form elements - v1.1.1 - 2013-01-21
-* https://github.com/danheberden/jquery-serializeForm
-* Copyright (c) 2013 Dan Heberden; Licensed MIT */
-
-(function( $ ){
+/*! jquery-serializeForm - Make an object out of form elements - v1.1.4 - 2013-08-12\n* https://github.com/danheberden/jquery-serializeForm
+* Copyright (c) 2013 Dan Heberden; Licensed MIT */(function( $ ){
   $.fn.serializeForm = function() {
 
     // don't do anything if we didn't get any elements
@@ -12,7 +9,7 @@
 
     var data = {};
     var lookup = data; //current reference of data
-    var selector = ':input[type!="checkbox"][type!="radio"], input:checked';
+    var selector = ':input[type!="checkbox"][type!="radio"]:not(:disabled), input:checked:not(:disabled)';
     var parse = function() {
 
       // data[a][b] becomes [ data, a, b ]
@@ -23,9 +20,20 @@
       // Ensure that only elements with valid `name` properties will be serialized
       if ( named[ 0 ] ) {
         for ( var i = 0; i < cap; i++ ) {
-          // move down the tree - create objects or array if necessary
-          lookup = lookup[ named[i] ] = lookup[ named[i] ] ||
-            ( named[ i + 1 ] === "" ? [] : {} );
+          if( lookup[ named[i] ] ){
+            lookup = lookup[ named[i] ];
+          }
+          else{
+            // move down the tree - create objects or array if necessary
+            var node =  ( named[ i + 1 ] === "" || !isNaN( named[ i + 1 ]) ) ? [] : {};
+            // push or assign the new node
+            if ( lookup.length !==  undefined ) {
+              lookup.push( node );
+              lookup = node;
+            }else {
+              lookup = lookup[ named[i] ] = node;
+            }
+          }
         }
 
         // at the end, push or assign the value
