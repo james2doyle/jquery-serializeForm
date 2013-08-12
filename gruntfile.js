@@ -3,37 +3,33 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    pkg: '<json:serializeForm.jquery.json>',
+    pkg: grunt.file.readJSON('package.json'),
     meta: {
       banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-        ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
     concat: {
+      options: {
+        stripBanners: true,
+        banner: '<%= meta.banner %>',
+      },
       dist: {
-        src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
+        src: ['src/<%= pkg.name %>.js'],
         dest: 'dist/<%= pkg.name %>.js'
-      }
-    },
-    min: {
-      dist: {
-        src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
-        dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
     qunit: {
       files: ['test/**/*.html']
     },
-    lint: {
-      files: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
-    },
     watch: {
-      files: '<config:lint.files>',
-      tasks: 'lint qunit'
+      files: 'src/**/*.js',
+      tasks: ['jshint', 'qunit']
     },
     jshint: {
+      files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -45,16 +41,32 @@ module.exports = function(grunt) {
         undef: true,
         boss: true,
         eqnull: true,
-        browser: true
-      },
-      globals: {
-        jQuery: true
+        browser: true,
+        globals: {
+          jQuery: true
+        }
       }
     },
-    uglify: {}
+    uglify: {
+      options: {
+        banner: '<%= meta.banner %>'
+      },
+      my_target: {
+        files: {
+          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
+    }
   });
 
+grunt.loadNpmTasks('grunt-contrib-concat');
+grunt.loadNpmTasks('grunt-contrib-uglify');
+grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-contrib-jshint');
+grunt.loadNpmTasks('grunt-contrib-qunit');
+
   // Default task.
-  grunt.registerTask('default', 'lint qunit concat min');
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('test', ['qunit']);
 
 };
