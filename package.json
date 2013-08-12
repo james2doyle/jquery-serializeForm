@@ -1,13 +1,35 @@
 {
-  "name": "jquery-plugin",
-  "version": "0.0.0-ignored",
+  "name": "serializeForm",
+  "title": "jquery-serializeForm - Make an object out of form elements",
+  "description": "Make an object out of form elements",
+  "version": "1.1.4",
+  "homepage": "https://github.com/danheberden/jquery-serializeForm",
+  "author": {
+    "name": "Dan Heberden",
+    "email": "danheberden@gmail.com",
+    "url": "http://danheberden.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/danheberden/jquery-serializeForm.git"
+  },
+  "bugs": "https://github.com/danheberden/jquery-serializeForm/issues",
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/danheberden/jquery-serializeForm/blob/master/LICENSE-MIT"
+  }],
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.10.10"
   },
   "scripts": {
-    "test": "grunt qunit"
+    "test": "gruntfile qunit"
   },
   "devDependencies": {
-    "grunt": "~0.3.12"
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-jshint": "~0.6.2",
+    "grunt-contrib-qunit": "~0.2.2"
   }
 }
