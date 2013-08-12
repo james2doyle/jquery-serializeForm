@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       }
     },
     qunit: {
-      files: ['test/**/*.html']
+      all: ['test/**/*.html']
     },
     watch: {
       files: 'src/**/*.js',
